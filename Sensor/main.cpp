@@ -9,7 +9,7 @@ using namespace std;
 int main(int argc, char *argv[]){
     bool sMode = false;
     bool pMode = false;
-    string sampleTime = "", precisionBits = "", numberOfSamples = "N/A";
+    string sampleTime, precisionBits, numberOfSamples;
 
 	if (argc < 2) { // no arguments provided
         	cerr << "Usage: " << argv[0] << " <sampleTime> <precisionBits> <numberOfSimulatedSamples>" << std::endl;
@@ -18,16 +18,18 @@ int main(int argc, char *argv[]){
 		cout << "You passed the following arguments: ";
 		for(int argcount = 1; argcount < argc; argcount++){
 			cout << argv[argcount] << "\t";
+            string argString;
+            argString = argv[argcount];
 
-            if (argv[argcount] == "--sensorMode"){
+            if (argString == "--sensorMode"){
                 sMode = true;
-            } else if (argv[argcount] == "--personMode"){
+            } else if (argString == "--personMode"){
                 pMode = true;
-            } else if (argv[argcount] == "--sampleTime" ){
+            } else if (argString == "--sampleTime" ){
                 sampleTime = argv[argcount + 1];
-            } else if (argv[argcount] == "--precisionBits" ){
+            } else if (argString == "--precisionBits" ){
                 precisionBits = argv[argcount + 1];
-            } else if (argv[argcount] == "--samples" ) {
+            } else if (argString == "--samples" ) {
                 numberOfSamples = argv[argcount + 1];
             }
 		}
