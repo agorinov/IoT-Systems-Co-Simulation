@@ -38,23 +38,34 @@ void parseCommandLineOptions(int argc, char* argv[], map<string, string> &CLOpts
         int c;
         int digitOptind = 0;
         int optionIndex = 0;
+        string argString;
         while ((c = getopt_long(argc, argv, "", longOptions, &optionIndex)) != -1) {
 
             switch (c) {
                 case 0: // valid option
                     cout << "option = " << longOptions[optionIndex].name << endl;
+                    argString = longOptions[optionIndex].name;
+                    if(argString == "sensorMode" ){
+                        CLOpts["sensorMode"] = "1";
+                    }
                     if (optarg) {
                         cout << " with arg " << optarg << endl;
+                        CLOpts[argString] = optarg;
                     }
                     break;
                 default:
-                    cerr << "Error: invalid command" << endl;
+//                    cerr << "Error: invalid command" << endl;
                     cerr << "Usage: " << argv[0] << " <sampleTime> <precisionBits> <numberOfSimulatedSamples>"
                          << std::endl;
                     exit(1);
-
             }
         }
+
+        if (CLOpts["sensorMode"].empty() and CLOpts["personMode"].empty()){
+            cerr << "Error: no mode provided" << endl;
+            cerr << "Usage: " << argv[0] << " <sampleTime> <precisionBits> <numberOfSimulatedSamples>" << endl;
+        }
+
         cout << "optind = " << optind << endl;
 
         if (optind < argc) {
@@ -75,13 +86,12 @@ void parseCommandLineOptions(int argc, char* argv[], map<string, string> &CLOpts
 /* For Sensor-Person Co-Simulation you will need to process some arguments....*/
 int main(int argc, char *argv[]){
     map<string, string> commandLineOptions = {
-            {"mode", ""},
+            {"sensorMode", ""},
+            {"personMode", ""},
             {"sampleTime", ""},
             {"precisionBits", ""},
             {"samples", ""},
-            {"numberOfPersons", ""}
     };
-
 
     cout << "You passed the following arguments:" << endl;
     string argString;
@@ -90,27 +100,18 @@ int main(int argc, char *argv[]){
 
         argString = argv[argcount];
 
-//            if (argString == "--sensorMode"){
-//                sMode = true;
-//            } else if (argString == "--personMode"){
-//                pMode = true;
-//            } else if (argString == "--sampleTime" ){
-//                sampleTime = argv[argcount + 1];
-//            } else if (argString == "--precisionBits") {
-//                precisionBits = argv[argcount + 1];
-//            } else if (argString == "--samples" ) {
-//                numberOfSamples = argv[argcount + 1];
-//            }
+
         cout << endl;
     }
     parseCommandLineOptions(argc, argv, commandLineOptions);
 
 
-//        cout << "sensorMode = " << sMode << endl;
-//        cout << "personMode = " << pMode << endl;
-//        cout << "sampleTime = " << sampleTime << endl;
-//        cout << "precisionBits = " << precisionBits << endl;
-//        cout << "numberOfSamples = " << numberOfSamples << endl;
+
+        cout << "sensorMode = " << commandLineOptions["sensorMode"] << endl;
+        cout << "number of persons = " << commandLineOptions["personMode"] << endl;
+        cout << "sampleTime = " << commandLineOptions["sampleTime"] << endl;
+        cout << "precisionBits = " << commandLineOptions["precisionBits"] << endl;
+        cout << "numberOfSamples = " << commandLineOptions["samples"] << endl;
 
 
 
