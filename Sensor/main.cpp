@@ -61,12 +61,29 @@ void parseCommandLineOptions(int argc, char* argv[], map<string, string> &CLOpts
             }
         }
 
+        // validating inputs
         if (CLOpts["sensorMode"].empty() and CLOpts["personMode"].empty()){
             cerr << "Error: no mode provided" << endl;
             cerr << "Usage: " << argv[0] << " <sampleTime> <precisionBits> <numberOfSimulatedSamples>" << endl;
+            exit(1);
         }
 
-        cout << "optind = " << optind << endl;
+        if (!CLOpts["sensorMode"].empty() and !CLOpts["personMode"].empty()){
+            cerr << "Error: conflicting modes provided" << endl;
+            cerr << "Usage: " << argv[0] << " <sampleTime> <precisionBits> <numberOfSimulatedSamples>" << endl;
+            exit(1);
+        }
+
+        if (!CLOpts["sensorMode"].empty()){
+            if (CLOpts["sampleTime"].empty() or CLOpts["precisionBits"].empty() or CLOpts["samples"].empty()){
+                cerr << "Error: one or more arguments missing" << endl;
+                cerr << "Usage: " << argv[0] << " <sampleTime> <precisionBits> <numberOfSimulatedSamples>" << endl;
+                exit(1);
+            }
+        }
+
+
+            cout << "optind = " << optind << endl;
 
         if (optind < argc) {
             cerr << "Error: Unrecognized arguments: " << endl;
@@ -81,8 +98,15 @@ void parseCommandLineOptions(int argc, char* argv[], map<string, string> &CLOpts
         cout << endl;
 
     }
-
 }
+
+void printUsageExample(){
+    cerr << "Usage:" << endl;
+    cerr << "--sensorMode --sampleTime <sampleTime> --precisionBits <precisionBits> --samples <numberOfSimulatedSamples>" << endl;
+    cerr << "or" << endl;
+    cerr << "--personMode <numberOfPeople>" << endl;
+}
+
 /* For Sensor-Person Co-Simulation you will need to process some arguments....*/
 int main(int argc, char *argv[]){
     map<string, string> commandLineOptions = {
