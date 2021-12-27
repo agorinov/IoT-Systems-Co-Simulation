@@ -2,7 +2,7 @@
 #include<iostream>
 #include<sstream>
 #include<string>
-#include<getopt.h>
+#include<getopt.h> // getopt_long()
 #include<map>
 
 using namespace std;
@@ -36,30 +36,10 @@ int main(int argc, char *argv[]){
     cout << "numberOfSamples = " << commandLineOptions["samples"] << endl;
 
 
-
-    /* TODO: Process the first argument as sampleTime; second argument as precisionBits; and third argument as the number of samples to generate */
-//        stringstream string_stream;
-//
-//        string_stream << argv[1];
-//        string_stream >> sampleTime;
-//
-//        //Clearing the stringstream
-//        string_stream.clear();
-//
-//        string_stream << argv[2];
-//        string_stream >> precisionBits;
-//
-//        //Clearing the stringstream
-//        string_stream.clear();
-//
-//        string_stream << argv[3];
-//        string_stream >> numberOfSamples;
-
-
-//	Sensor A("A", stoi(sampleTime), stoi(precisionBits)); /* TODO: The constructor parameters here should be input from the user through main arguments */
+//	Sensor A("A", stoi(commandLineOptions["sampleTime"]), stoi(commandLineOptions["precisionBits"]));
 //	A.showInfo();
 //
-//	A.generateSamples(stoi(numberOfSamples)); //TODO: 100 here should be replaced by the third argument you pass
+//	A.generateSamples(stoi(commandLineOptions["samples"]));
 
 	/* TODO: Declare the person objects here with different weights and ages */
 	/* TODO: Read the sensed samples with timestamps and process sample information as directed in the Project info */
@@ -67,6 +47,8 @@ int main(int argc, char *argv[]){
 
 	return 0;
 }
+
+// Display correct usage of arguments
 void printUsageExample(string programName){
     cerr << "Usage: " << endl;
     cerr << programName << " --sensorMode --sampleTime <sampleTime> --precisionBits <precisionBits> --samples <numberOfSimulatedSamples>" << endl;
@@ -74,6 +56,8 @@ void printUsageExample(string programName){
     cerr << programName << " --personMode <numberOfPeople>" << endl;
 }
 
+// Process command line arguments using getopt library and validate inputs.
+// Map containing arguments and corresponding values passed by reference.
 void parseCommandLineOptions(int argc, char* argv[], map<string, string> &CLOpts) {
 
 // checking parameters passed to the function
@@ -93,6 +77,7 @@ void parseCommandLineOptions(int argc, char* argv[], map<string, string> &CLOpts
         printUsageExample(argv[0]);
         exit(1);
     } else {
+        // Struct used by getopt, contains information about expected arguments
         static struct option longOptions[] = {
                 {"sensorMode",    no_argument,       0, 0},
                 {"personMode",    required_argument, 0, 0},
@@ -106,17 +91,19 @@ void parseCommandLineOptions(int argc, char* argv[], map<string, string> &CLOpts
         int digitOptind = 0;
         int optionIndex = 0;
         string argString;
+        // Get command line arguments and determine if they match expected form as shown in  longOptions[]
+        // If valid, stores corresponding value of each argument in map which was passed by reference
         while ((c = getopt_long(argc, argv, "", longOptions, &optionIndex)) != -1) {
 
             switch (c) {
                 case 0: // valid option
-                    cout << "option = " << longOptions[optionIndex].name << endl;
+//                    cout << "option = " << longOptions[optionIndex].name << endl;
                     argString = longOptions[optionIndex].name;
                     if(argString == "sensorMode" ){
                         CLOpts["sensorMode"] = "1";
                     }
                     if (optarg) {
-                        cout << " with arg " << optarg << endl;
+//                        cout << " with arg " << optarg << endl;
                         CLOpts[argString] = optarg;
                     }
                     break;
@@ -164,9 +151,9 @@ void parseCommandLineOptions(int argc, char* argv[], map<string, string> &CLOpts
             exit(1);
         }
 
-        cout << "argc = " << argc;
-        cout << " optind = " << optind;
-        cout << endl;
+//        cout << "argc = " << argc;
+//        cout << " optind = " << optind;
+//        cout << endl;
 
     }
 }
