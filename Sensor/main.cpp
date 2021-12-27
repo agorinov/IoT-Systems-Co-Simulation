@@ -1,9 +1,11 @@
 #include"Sensor.hpp"
+#include"Person.hpp"
 #include<iostream>
 #include<sstream>
 #include<string>
 #include<getopt.h> // getopt_long()
 #include<map>
+#include<vector>
 
 using namespace std;
 
@@ -42,6 +44,20 @@ int main(int argc, char *argv[]){
 //	A.generateSamples(stoi(commandLineOptions["samples"]));
 
 	/* TODO: Declare the person objects here with different weights and ages */
+
+    vector<Person> People;
+    int personCounter;
+    for (personCounter = 0; personCounter < stoi(commandLineOptions["personMode"]); personCounter++){
+        Person person = Person();
+        People.push_back(person);
+    }
+
+    cout << "Size of People vector = " << People.size() << endl;
+
+    for (Person p : People){
+        cout << p.showPersonalInfo();
+    }
+
 	/* TODO: Read the sensed samples with timestamps and process sample information as directed in the Project info */
 	/* TODO: Store analysed criticality info of the persons/samples in analysis.txt file */
 
