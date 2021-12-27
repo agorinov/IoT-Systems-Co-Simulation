@@ -43,7 +43,7 @@ void Person::setID_num()
     unsigned int maxID_num = 999;
     unsigned int minID_num = 101;
 
-    ID_num = (rand() % (maxID_num - minID_num + 1)) + minID_num;
+    ID_num = (rand() % (maxID_num - minID_num + 1)) + minID_num; //TODO: create unique ID number for each person
 }
 
 string Person::showPersonalInfo() const
