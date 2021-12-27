@@ -20,9 +20,12 @@ public: // all members below are public members -- meaning that are all visible 
     unsigned int getID_num() const;
     void setID_num();
 
-
     //Display age and ID number of person
     string showPersonalInfo() const;
+
+    int getTimeWindow(string date) const;
+    int analyseSensedData() const;
+
 
 private:
     // data members that can only be directly accessed by this class and its direct children classes

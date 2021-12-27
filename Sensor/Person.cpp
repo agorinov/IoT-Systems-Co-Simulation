@@ -52,6 +52,16 @@ string Person::showPersonalInfo() const
     cout << "age = " << this->age << endl;
 }
 
+int Person::getTimeWindow(string date) const
+{
+    // TODO: return the time window with current time stamp; see the data (*.dat) file for example
+}
+
+int Person::analyseSensedData() const
+{
+    // TODO: read each sample in the data file (sensorA.dat) and check for the criticality conditions
+}
+
 
 
 
