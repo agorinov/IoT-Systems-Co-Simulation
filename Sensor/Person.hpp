@@ -1,4 +1,6 @@
 #include<string>
+#include<iostream>
+
 
 using namespace std;
 
@@ -12,8 +14,12 @@ public: // all members below are public members -- meaning that are all visible 
     Person(unsigned int ID_num, unsigned int age ); //the other constructor (which takes two parameters: ID and age)
 
     // accessor -- method that gives you read-only access to the current values of age
-    float getAge() const; //the last const means the implementation of the method is in-line (for now assume a memory-efficient way of including functional definition)
+    unsigned int getAge() const; //the last const means the implementation of the method is in-line (for now assume a memory-efficient way of including functional definition)
     void setAge();
+
+    unsigned int getID_num() const;
+    void setID_num();
+
 
     //Display age and ID number of person
     string showPersonalInfo() const;
