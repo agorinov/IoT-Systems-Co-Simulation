@@ -54,8 +54,11 @@ int main(int argc, char *argv[]){
 
     cout << "Size of People vector = " << People.size() << endl;
 
+    // Print total number of objects.
+    cout << "Total people: " << Person::personCount << endl;
+
     for (Person p : People){
-        cout << p.showPersonalInfo();
+        p.showPersonalInfo();
     }
 
 	/* TODO: Read the sensed samples with timestamps and process sample information as directed in the Project info */
@@ -93,7 +96,7 @@ void parseCommandLineOptions(int argc, char* argv[], map<string, string> &CLOpts
         printUsageExample(argv[0]);
         exit(1);
     } else {
-        // Struct used by getopt, contains information about expected arguments
+        // Array of structs used by getopt, contains information about expected arguments
         static struct option longOptions[] = {
                 {"sensorMode",    no_argument,       0, 0},
                 {"personMode",    required_argument, 0, 0},

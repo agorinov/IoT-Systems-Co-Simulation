@@ -1,5 +1,7 @@
 #include<string>
 #include<iostream>
+#include<unordered_map>
+#include <ctime>
 
 
 using namespace std;
@@ -8,8 +10,10 @@ class Person
 {
 public: // all members below are public members -- meaning that are all visible from objects
 
+    static int personCount;
+    static unordered_map<unsigned int, int> ID_tracker;
+
     // function members
-    // constructors help creating an object from a class definition
     Person(); //the default constructor (without any arguments)
     Person(unsigned int ID_num, unsigned int age ); //the other constructor (which takes two parameters: ID and age)
 
@@ -21,7 +25,7 @@ public: // all members below are public members -- meaning that are all visible 
     void setID_num();
 
     //Display age and ID number of person
-    string showPersonalInfo() const;
+    void showPersonalInfo() const;
 
     int getTimeWindow(string date) const;
     int analyseSensedData() const;
