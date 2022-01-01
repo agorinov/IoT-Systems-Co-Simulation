@@ -17,7 +17,7 @@ Person::Person()
     age = getAge();
 
     // Increase every time person is created
-    personCount++;
+//    personCount++;
 
 }
 
@@ -77,12 +77,12 @@ void Person::showPersonalInfo() const
     cout << "age = " << this->age << endl;
 }
 
-int Person::getTimeWindow(string date) const
+string Person::getTimeWindow(string date) const
 {
-    // TODO: return the time window with current time stamp; see the data (*.dat) file for example
+    // TODO: return the time window corresponding to particular time stamp found in data file
 }
 
-int Person::analyseSensedData() const
+int Person:: analyseSensedData(string timeWindow, int sampleValue) const
 {
     // TODO: read each sample in the data file (sensorA.dat) and check for the criticality conditions
 
@@ -94,11 +94,13 @@ int Person::analyseSensedData() const
         exit(EXIT_FAILURE);
     }
 
+    // TODO: remove file-related code outside this function (either to main or make a different function)
     analysisFile << "---------------------------------------------------------------------------------------------" << endl;
     analysisFile << "Person " << "NUMBER_PLACEHOLDER ";
     analysisFile << "ID " << ID_num << " (Age AGE_RANGE_PLACEHOLDER)" << endl;
     analysisFile << "---------------------------------------------------------------------------------------------" << endl;
 
+    // TODO: create separate function for determining age range
     analysisFile.close();
 
 }

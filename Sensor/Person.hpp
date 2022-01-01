@@ -28,8 +28,8 @@ public: // all members below are public members -- meaning that are all visible 
     //Display age and ID number of person
     void showPersonalInfo() const;
 
-    int getTimeWindow(string date) const;
-    int analyseSensedData() const;
+    string getTimeWindow(string date) const;
+    int analyseSensedData(string timeWindow, int sampleValue) const;
 
 
 private:
