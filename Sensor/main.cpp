@@ -59,6 +59,7 @@ int main(int argc, char *argv[]){
 
     for (Person p : People){
         p.showPersonalInfo();
+        p.analyseSensedData();
     }
 
 	/* TODO: Read the sensed samples with timestamps and process sample information as directed in the Project info */

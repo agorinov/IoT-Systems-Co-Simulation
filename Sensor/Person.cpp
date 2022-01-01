@@ -4,11 +4,12 @@ using namespace std;
 
 int Person::personCount = 0;
 unordered_map<unsigned int, int> Person::ID_tracker;
+string outputDirectory = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Desktop\\Sensor\\Analysis.txt";
 
 // default constructor
 Person::Person()
 {
-    srand( time( NULL ) );  //  using the time seed
+    srand( time( NULL ) );  //  using the time to seed RNG (used to set ID number and age)
     setID_num();
     setAge();
 
@@ -32,6 +33,7 @@ unsigned int Person::getAge() const
     return age;
 }
 
+// Generate a random age between 0 and 99
 void Person::setAge()
 {
     unsigned int maxAge = 99;
@@ -46,27 +48,29 @@ unsigned int Person::getID_num() const
     return ID_num;
 }
 
+// Generate a random, unique ID number between 101 and 999
 void Person::setID_num()
 {
-    unsigned int maxID_num = 5;
-    unsigned int minID_num = 1;
-    unsigned int t;
+    unsigned int maxID_num = 999;
+    unsigned int minID_num = 101;
+    unsigned int tempID;
 
-    // TODO: implement different random seed?
+    // TODO: implement different seed?
 //    srand( time( NULL ) );  //  using the time seed
     while(true) {
-        t = (rand() % (maxID_num - minID_num + 1)) + minID_num;
-        if (ID_tracker.count(t)) {
-            cout << "ID " << t << " exists" << endl;
+        tempID = (rand() % (maxID_num - minID_num + 1)) + minID_num;
+        if (ID_tracker.count(tempID)) {
+            cout << "ID " << tempID << " exists" << endl;
         } else {
-            cout << "ID " << t << " is unique" << endl;
-            ID_num = t;
+            cout << "ID " << tempID << " is unique" << endl;
+            ID_num = tempID;
             ID_tracker[ID_num] = 0;
             break;
         }
     }
 }
 
+// Prints the age and ID number of person object
 void Person::showPersonalInfo() const
 {
     cout << "ID number = " << this->ID_num << endl;
@@ -81,6 +85,22 @@ int Person::getTimeWindow(string date) const
 int Person::analyseSensedData() const
 {
     // TODO: read each sample in the data file (sensorA.dat) and check for the criticality conditions
+
+    ofstream analysisFile;
+    analysisFile.open(outputDirectory, ios_base::app);
+
+    if(!analysisFile.is_open()) {
+        cerr << "Analysis file could not be opened -- exiting." << endl;
+        exit(EXIT_FAILURE);
+    }
+
+    analysisFile << "---------------------------------------------------------------------------------------------" << endl;
+    analysisFile << "Person " << "NUMBER_PLACEHOLDER ";
+    analysisFile << "ID " << ID_num << " (Age AGE_RANGE_PLACEHOLDER)" << endl;
+    analysisFile << "---------------------------------------------------------------------------------------------" << endl;
+
+    analysisFile.close();
+
 }
 
 
