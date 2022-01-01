@@ -15,6 +15,11 @@ void parseCommandLineOptions(int argc, char* argv[], map<string, string> &CLOpts
 
 /* For Sensor-Person Co-Simulation you will need to process some arguments....*/
 int main(int argc, char *argv[]){
+
+    // Directory where analysis file is stored
+    string outputDirectory = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Desktop\\Sensor\\Analysis.txt";
+
+
     map<string, string> commandLineOptions = {
             {"sensorMode", ""},
             {"personMode", ""},
@@ -54,15 +59,28 @@ int main(int argc, char *argv[]){
 
     cout << "Size of People vector = " << People.size() << endl;
 
-    // Print total number of objects.
-    cout << "Total people: " << Person::personCount << endl;
+    ofstream analysisFile;
+    analysisFile.open(outputDirectory, ios_base::app);
+
+    if(!analysisFile.is_open()) {
+        cerr << "Analysis file could not be opened -- exiting." << endl;
+        exit(EXIT_FAILURE);
+    }
+
+    int personTracker = 1;
 
     for (Person p : People){
         p.showPersonalInfo();
-//        p.analyseSensedData();
+
+        analysisFile << "---------------------------------------------------------------------------------------------" << endl;
+        analysisFile << "Person " << personTracker++ << " ";
+        analysisFile << "ID: " << p.getID_num() << " (Age " << p.getAgeRange() << " years)" << endl;
+        analysisFile << "---------------------------------------------------------------------------------------------" << endl;
     }
 
-	/* TODO: Read the sensed samples with timestamps and process sample information as directed in the Project info */
+        analysisFile.close();
+
+    /* TODO: Read the sensed samples with timestamps and process sample information as directed in the Project info */
 	/* TODO: Store analysed criticality info of the persons/samples in analysis.txt file */
 
 	return 0;

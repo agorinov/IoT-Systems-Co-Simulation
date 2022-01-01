@@ -11,7 +11,7 @@ class Person
 {
 public: // all members below are public members -- meaning that are all visible from objects
 
-    static int personCount;
+//    static int personCount;
     static unordered_map<unsigned int, int> ID_tracker;
 
     // function members
@@ -24,6 +24,8 @@ public: // all members below are public members -- meaning that are all visible 
 
     unsigned int getID_num() const;
     void setID_num();
+
+    string getAgeRange() const;
 
     //Display age and ID number of person
     void showPersonalInfo() const;

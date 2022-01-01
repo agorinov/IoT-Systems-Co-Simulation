@@ -2,9 +2,8 @@
 
 using namespace std;
 
-int Person::personCount = 0;
+//int Person::personCount = 0;
 unordered_map<unsigned int, int> Person::ID_tracker;
-string outputDirectory = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Desktop\\Sensor\\Analysis.txt";
 
 // default constructor
 Person::Person()
@@ -77,6 +76,21 @@ void Person::showPersonalInfo() const
     cout << "age = " << this->age << endl;
 }
 
+string Person::getAgeRange() const
+{
+    if(age >= 0 and age <= 6){
+        return "0-6";
+    } else if(age >= 7 and age <= 16){
+        return "7-16";
+    } else if(age >= 17 and age <= 38){
+        return "17-38";
+    } else if(age >= 39 and age <= 55){
+        return "39-55";
+    } else if(age > 55){
+        return "55+";
+    } else return "N/A";
+}
+
 string Person::getTimeWindow(string date) const
 {
     // TODO: return the time window corresponding to particular time stamp found in data file
@@ -86,22 +100,7 @@ int Person:: analyseSensedData(string timeWindow, int sampleValue) const
 {
     // TODO: read each sample in the data file (sensorA.dat) and check for the criticality conditions
 
-    ofstream analysisFile;
-    analysisFile.open(outputDirectory, ios_base::app);
 
-    if(!analysisFile.is_open()) {
-        cerr << "Analysis file could not be opened -- exiting." << endl;
-        exit(EXIT_FAILURE);
-    }
-
-    // TODO: remove file-related code outside this function (either to main or make a different function)
-    analysisFile << "---------------------------------------------------------------------------------------------" << endl;
-    analysisFile << "Person " << "NUMBER_PLACEHOLDER ";
-    analysisFile << "ID " << ID_num << " (Age AGE_RANGE_PLACEHOLDER)" << endl;
-    analysisFile << "---------------------------------------------------------------------------------------------" << endl;
-
-    // TODO: create separate function for determining age range
-    analysisFile.close();
 
 }
 
