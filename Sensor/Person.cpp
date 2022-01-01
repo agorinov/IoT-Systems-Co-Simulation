@@ -93,6 +93,10 @@ string Person::getAgeRange() const
 
 string Person::getTimeWindow(string date) const
 {
+    tm tm = {};
+//    strptime("2020-12-18 15:23:21", "%Y-%m-%d %H:%M:%S", &tm);
+
+
     // TODO: return the time window corresponding to particular time stamp found in data file
 }
 

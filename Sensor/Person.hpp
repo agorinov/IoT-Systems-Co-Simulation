@@ -2,6 +2,7 @@
 #include<iostream>
 #include<unordered_map> // to store/check existing ID numbers
 #include<ctime> // to seed random number generator
+#include<time.h> // strptime
 #include<fstream>
 
 
