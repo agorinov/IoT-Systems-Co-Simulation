@@ -114,9 +114,15 @@ string Person::getTimeWindow(string date) const
 
 int Person:: analyseSensedData(string timeWindow, int sampleValue) const
 {
+    int criticalSamples = 0;
+
+    cout << "time window: " << timeWindow << endl;
+    cout << "sample value: " << sampleValue << endl;
+
     // TODO: read each sample in the data file (sensorA.dat) and check for the criticality conditions
 
 
+    return criticalSamples;
 
 }
 

@@ -9,6 +9,7 @@
 #include<regex>
 #include<fstream>
 
+
 using namespace std;
 
 void printUsageExample(string programName);
@@ -19,8 +20,8 @@ void parseCommandLineOptions(int argc, char* argv[], map<string, string> &CLOpts
 int main(int argc, char *argv[]){
 
     // Directory where analysis file is stored
-    string analysisOutputDirectory = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Desktop\\Sensor\\Analysis.txt";
-    string sensorDirectory = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Desktop\\Sensor\\sensorA.dat";
+    string analysisFilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Desktop\\Sensor\\Analysis.txt";
+    string sensorFilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Desktop\\Sensor\\sensorA.dat";
 
 
     map<string, string> commandLineOptions = {
@@ -63,7 +64,7 @@ int main(int argc, char *argv[]){
     cout << "Size of People vector = " << People.size() << endl;
 
     ofstream analysisFile;
-    analysisFile.open(analysisOutputDirectory, ios_base::app);
+    analysisFile.open(analysisFilePath, ios_base::app);
 
     if(!analysisFile.is_open()) {
         cerr << "Analysis file could not be opened -- exiting." << endl;
@@ -80,10 +81,28 @@ int main(int argc, char *argv[]){
         analysisFile << "ID: " << p.getID_num() << " (Age " << p.getAgeRange() << " years)" << endl;
         analysisFile << "---------------------------------------------------------------------------------------------" << endl;
 
-        string line;
-        while (getline(sensorDirectory, line)) {
 
+        ifstream sensorFile(sensorFilePath);
+
+        if(!sensorFile.is_open()) {
+            cerr << "Stat file could not be opened -- exiting." << endl;
+            exit(EXIT_FAILURE);
         }
+
+        string line;
+        string timeString;
+        while (getline(sensorFile, line)) {
+
+            smatch m;
+            regex sensRegExp(R"((^\d+\-\d+\-\d+\.\d+\:\d+\:\d+))");
+            if (regex_search(line, m, sensRegExp)) {
+
+                timeString = p.getTimeWindow(m[1]);
+                cout << timeString << endl;
+            }
+        }
+
+        sensorFile.close();
 
     }
 
