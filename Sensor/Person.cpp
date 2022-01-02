@@ -91,13 +91,25 @@ string Person::getAgeRange() const
     } else return "N/A";
 }
 
+// Parse timestamp and return corresponding time window as string
 string Person::getTimeWindow(string date) const
 {
-    tm tm = {};
-//    strptime("2020-12-18 15:23:21", "%Y-%m-%d %H:%M:%S", &tm);
+    tm tm = {}; // struct containing time/date components
 
+    stringstream ss(date);
+    ss >> get_time(&tm, "%Y-%m-%d %H:%M:%S");
+//    cout << "hours: " << tm.tm_hour << " minutes: " << tm.tm_min << endl;
 
-    // TODO: return the time window corresponding to particular time stamp found in data file
+    if(tm.tm_hour >= 0 and tm.tm_hour < 7){
+        return "Night";
+    } else if (tm.tm_hour >= 7 and tm.tm_hour < 10){
+        return "Morning";
+    } else if (tm.tm_hour >= 10 and tm.tm_hour < 18){
+        return "Daytime";
+    } else if (tm.tm_hour >= 18 and tm.tm_hour <= 23){
+        return "Evening";
+    } else return "Error";
+
 }
 
 int Person:: analyseSensedData(string timeWindow, int sampleValue) const
