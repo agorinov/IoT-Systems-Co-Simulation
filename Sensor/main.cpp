@@ -82,27 +82,34 @@ int main(int argc, char *argv[]){
         analysisFile << "---------------------------------------------------------------------------------------------" << endl;
 
 
-//        ifstream sensorFile(sensorFilePath);
-//
-//        if(!sensorFile.is_open()) {
-//            cerr << "Stat file could not be opened -- exiting." << endl;
-//            exit(EXIT_FAILURE);
-//        }
-//
-//        string line;
-//        string timeString;
-//        while (getline(sensorFile, line)) {
-//
-//            smatch m;
-//            regex sensRegExp(R"((^\d+\-\d+\-\d+\.\d+\:\d+\:\d+))");
-//            if (regex_search(line, m, sensRegExp)) {
-//
-//                timeString = p.getTimeWindow(m[1]);
-//                cout << timeString << endl;
-//            }
-//        }
-//
-//        sensorFile.close();
+        ifstream sensorFile(sensorFilePath);
+
+        if(!sensorFile.is_open()) {
+            cerr << "Sensor file could not be opened -- exiting." << endl;
+            exit(EXIT_FAILURE);
+        }
+
+        string line;
+        string timeWindow;
+        string timeStamp;
+        float sensedData;
+        string result;
+        while (getline(sensorFile, line)) {
+
+            smatch m;
+            regex sensRegExp(R"((^\d+\-\d+\-\d+\.\d+\:\d+\:\d+)\s+(\d+\.\d+))");
+            if (regex_search(line, m, sensRegExp)) {
+
+                timeStamp = m[1]; // first capturing group (first column in sensor file)
+                timeWindow = p.getTimeWindow(timeStamp);
+                cout << timeWindow << endl;
+
+                sensedData = m[2]; // second capturing group (second column in sensor file)
+                result = p.analyseSensedData(timeWindow, sensedData);
+            }
+        }
+
+        sensorFile.close();
 
     }
 

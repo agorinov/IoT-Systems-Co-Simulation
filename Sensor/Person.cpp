@@ -110,18 +110,106 @@ string Person::getTimeWindow(string date) const
     } else return "Error";
 
 }
-
-int Person:: analyseSensedData(string timeWindow, int sampleValue) const
+// Check for criticality conditions
+string Person:: analyseSensedData(const string& timeWindow, float sampleValue) const
 {
-    int criticalSamples = 0;
+    string result = "N/A";
 
-    cout << "time window: " << timeWindow << endl;
-    cout << "sample value: " << sampleValue << endl;
+//    cout << "time window: " << timeWindow << endl;
+//    cout << "sample value: " << sampleValue << endl;
 
-    // TODO: read each sample in the data file (sensorA.dat) and check for the criticality conditions
+    string ageRange = getAgeRange();
+    if(timeWindow == "Night") {
+        if (ageRange == "0-6") {
+            if (sampleValue <= 20 and sampleValue >= 30.2) {
+                return "critical value : " + to_string(sampleValue) + " detected at Night";
+            }
+        } else if (ageRange == "7-16") {
+            if (sampleValue <= 22 and sampleValue >= 35.9) {
+                return "critical value : " + to_string(sampleValue) + " detected at Night";
+            }
+        } else if (ageRange == "17-38") {
+            if (sampleValue <= 22.7 and sampleValue >= 37.3) {
+                return "critical value : " + to_string(sampleValue) + " detected at Night";
+            }
+        } else if (ageRange == "17-38") {
+            if (sampleValue <= 25.7 and sampleValue >= 38.3) {
+                return "critical value : " + to_string(sampleValue) + " detected at Night";
+            }
+        } else if (ageRange == "55+") {
+            if (sampleValue <= 20 and sampleValue >= 35) {
+                return "critical value : " + to_string(sampleValue) + " detected at Night";
+            }
+        }
+    } else if(timeWindow == "Morning"){
+        if (ageRange == "0-6") {
+            if (sampleValue <= 30 and sampleValue >= 52) {
+                return "critical value : " + to_string(sampleValue) + " detected at Morning";
+            }
+        } else if (ageRange == "7-16") {
+            if (sampleValue <= 30 and sampleValue >= 55) {
+                return "critical value : " + to_string(sampleValue) + " detected at Morning";
+            }
+        } else if (ageRange == "17-38") {
+            if (sampleValue <= 32 and sampleValue >= 57.8) {
+                return "critical value : " + to_string(sampleValue) + " detected at Morning";
+            }
+        } else if (ageRange == "17-38") {
+            if (sampleValue <= 32 and sampleValue >= 57.8) {
+                return "critical value : " + to_string(sampleValue) + " detected at Morning";
+            }
+        } else if (ageRange == "55+") {
+            if (sampleValue <= 30 and sampleValue >= 50) {
+                return "critical value : " + to_string(sampleValue) + " detected at Morning";
+            }
+        }
+    } else if(timeWindow == "Daytime"){
+        if (ageRange == "0-6") {
+            if (sampleValue <= 20 and sampleValue >= 40) {
+                return "critical value : " + to_string(sampleValue) + " detected at Daytime";
+            }
+        } else if (ageRange == "7-16") {
+            if (sampleValue <= 20 and sampleValue >= 39) {
+                return "critical value : " + to_string(sampleValue) + " detected at Daytime";
+            }
+        } else if (ageRange == "17-38") {
+            if (sampleValue <= 22.7 and sampleValue >= 41) {
+                return "critical value : " + to_string(sampleValue) + " detected at Daytime";
+            }
+        } else if (ageRange == "17-38") {
+            if (sampleValue <= 22.7 and sampleValue >= 41) {
+                return "critical value : " + to_string(sampleValue) + " detected at Daytime";
+            }
+        } else if (ageRange == "55+") {
+            if (sampleValue <= 25.7 and sampleValue >= 37) {
+                return "critical value : " + to_string(sampleValue) + " detected at Daytime";
+            }
+        }
+    } else if(timeWindow == "Evening"){
+        if (ageRange == "0-6") {
+            if (sampleValue <= 25 and sampleValue >= 52) {
+                return "critical value : " + to_string(sampleValue) + " detected at Evening";
+            }
+        } else if (ageRange == "7-16") {
+            if (sampleValue <= 25 and sampleValue >= 55) {
+                return "critical value : " + to_string(sampleValue) + " detected at Evening";
+            }
+        } else if (ageRange == "17-38") {
+            if (sampleValue <= 25 and sampleValue >= 57.8) {
+                return "critical value : " + to_string(sampleValue) + " detected at Evening";
+            }
+        } else if (ageRange == "17-38") {
+            if (sampleValue <= 25 and sampleValue >= 57.8) {
+                return "critical value : " + to_string(sampleValue) + " detected at Evening";
+            }
+        } else if (ageRange == "55+") {
+            if (sampleValue <= 25 and sampleValue >= 40) {
+                return "critical value : " + to_string(sampleValue) + " detected at Evening";
+            }
+        }
+    }
 
-
-    return criticalSamples;
+    return result; // no match found
 
 }
 
