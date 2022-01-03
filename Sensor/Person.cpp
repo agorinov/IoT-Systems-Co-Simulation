@@ -70,10 +70,9 @@ void Person::setID_num()
 }
 
 // Prints the age and ID number of person object
-void Person::showPersonalInfo() const
+string Person::showPersonalInfo() const
 {
-    cout << "ID number = " << this->ID_num << endl;
-    cout << "age = " << this->age << endl;
+    return "ID: " + to_string(ID_num) + " (Age " + getAgeRange() + " years)";
 }
 
 string Person::getAgeRange() const

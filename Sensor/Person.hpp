@@ -31,7 +31,7 @@ public: // all members below are public members -- meaning that are all visible 
     string getAgeRange() const;
 
     //Display age and ID number of person
-    void showPersonalInfo() const;
+    string showPersonalInfo() const;
 
     string getTimeWindow(string date) const;
     int analyseSensedData(string timeWindow, int sampleValue) const;
