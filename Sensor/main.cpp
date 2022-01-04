@@ -20,8 +20,8 @@ void parseCommandLineOptions(int argc, char* argv[], map<string, string> &CLOpts
 int main(int argc, char *argv[]){
 
     // Directory where analysis file is stored
-    string analysisFilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Desktop\\Sensor\\Analysis.txt";
-    string sensorFilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Desktop\\Sensor\\sensorA.dat";
+    string analysisFilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Laptop\\Sensor\\Analysis.txt";
+    string sensorFilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Laptop\\Sensor\\sensorA.dat";
 
 
     map<string, string> commandLineOptions = {
@@ -81,6 +81,7 @@ int main(int argc, char *argv[]){
         analysisFile << p.showPersonalInfo() << endl;
         analysisFile << "---------------------------------------------------------------------------------------------" << endl;
 
+        /* TODO: Read the sensed samples with timestamps and process sample information as directed in the Project info */
 
         ifstream sensorFile(sensorFilePath);
 
@@ -89,25 +90,60 @@ int main(int argc, char *argv[]){
             exit(EXIT_FAILURE);
         }
 
+        int lineTracker = 0;
         string line;
         string timeWindow;
         string timeStamp;
         float sensedData;
-        string result;
+        int result;
+        map<string, int> criticalSensedValues{
+                {"Night", 0},
+                {"Morning", 0},
+                {"Daytime", 0},
+                {"Evening", 0}
+        };
+
+        map<string, int> totalSensedValues{
+                {"Night", 0},
+                {"Morning", 0},
+                {"Daytime", 0},
+                {"Evening", 0}
+        };
+
         while (getline(sensorFile, line)) {
 
             smatch m;
             regex sensRegExp(R"((^\d+\-\d+\-\d+\.\d+\:\d+\:\d+)\s+(\d+\.\d+))");
             if (regex_search(line, m, sensRegExp)) {
 
-                timeStamp = m[1]; // first capturing group (first column in sensor file)
-                timeWindow = p.getTimeWindow(timeStamp);
-                cout << timeWindow << endl;
+                lineTracker++;
+                timeStamp = m[1]; // first capturing group (entry in first column in sensor file)
+                sensedData = stof(m[2]); // second capturing group (entry in second column in sensor file)
 
-                sensedData = m[2]; // second capturing group (second column in sensor file)
-                result = p.analyseSensedData(timeWindow, sensedData);
+                timeWindow = p.getTimeWindow(timeStamp);
+                cout << "line number = " << lineTracker << ", " << m[1] << " corresponds to time window: " << timeWindow << endl;
+                criticalSensedValues[timeWindow] += p.analyseSensedData(timeWindow, sensedData);
+                totalSensedValues[timeWindow] += 1;
             }
         }
+
+        float nightCritSamplePercent = 100*(float)criticalSensedValues["Night"]/(float)totalSensedValues["Night"];
+        float morningCritSamplePercent = 100*(float)criticalSensedValues["Morning"]/(float)totalSensedValues["Morning"];
+        float daytimeCritSamplePercent = 100*(float)criticalSensedValues["Daytime"]/(float)totalSensedValues["Daytime"];
+        float eveningCritSamplePercent = 100*(float)criticalSensedValues["Evening"]/(float)totalSensedValues["Evening"];
+
+
+//        analysisFile << "Night" << "                                 " << nightCritSamplePercent << endl;
+//        analysisFile << "Morning" << "                                 " << morningCritSamplePercent << endl;
+//        analysisFile << "Daytime" << "                                 " << daytimeCritSamplePercent << endl;
+//        analysisFile << "Evening" << "                                 " << eveningCritSamplePercent << endl;
+
+        /* TODO: Store analysed criticality info of the persons/samples in analysis.txt file */
+
+        cout << "Night" << "                                 " << nightCritSamplePercent << endl;
+        cout << "Morning" << "                                 " << morningCritSamplePercent << endl;
+        cout << "Daytime" << "                                 " << daytimeCritSamplePercent << endl;
+        cout << "Evening" << "                                 " << eveningCritSamplePercent << endl;
 
         sensorFile.close();
 
@@ -115,8 +151,6 @@ int main(int argc, char *argv[]){
 
         analysisFile.close();
 
-    /* TODO: Read the sensed samples with timestamps and process sample information as directed in the Project info */
-	/* TODO: Store analysed criticality info of the persons/samples in analysis.txt file */
 
 	return 0;
 }
