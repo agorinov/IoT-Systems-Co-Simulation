@@ -3,7 +3,7 @@
 using namespace std;
 
 //int Person::personCount = 0;
-unordered_map<unsigned int, int> Person::ID_tracker;
+unordered_map<unsigned int, int> Person::ID_tracker; // stores existing ID numbers
 
 // default constructor
 Person::Person()
@@ -97,7 +97,7 @@ string Person::getTimeWindow(string date) const
 
     stringstream ss(date);
     ss >> get_time(&tm, "%Y-%m-%d %H:%M:%S");
-//    cout << "hours: " << tm.tm_hour << " minutes: " << tm.tm_min << endl;
+    cout << "hours: " << tm.tm_hour << " minutes: " << tm.tm_min << endl;
 
     if(tm.tm_hour >= 0 and tm.tm_hour < 7){
         return "Night";
@@ -111,9 +111,9 @@ string Person::getTimeWindow(string date) const
 
 }
 // Check for criticality conditions
-string Person:: analyseSensedData(const string& timeWindow, float sampleValue) const
+int Person:: analyseSensedData(const string& timeWindow, float sampleValue) const
 {
-    string result = "N/A";
+    int result = 0;
 
 //    cout << "time window: " << timeWindow << endl;
 //    cout << "sample value: " << sampleValue << endl;
@@ -122,94 +122,94 @@ string Person:: analyseSensedData(const string& timeWindow, float sampleValue) c
     if(timeWindow == "Night") {
         if (ageRange == "0-6") {
             if (sampleValue <= 20 and sampleValue >= 30.2) {
-                return "critical value : " + to_string(sampleValue) + " detected at Night";
+                result = 1;
             }
         } else if (ageRange == "7-16") {
             if (sampleValue <= 22 and sampleValue >= 35.9) {
-                return "critical value : " + to_string(sampleValue) + " detected at Night";
+                result = 1;
             }
         } else if (ageRange == "17-38") {
             if (sampleValue <= 22.7 and sampleValue >= 37.3) {
-                return "critical value : " + to_string(sampleValue) + " detected at Night";
+                result = 1;
             }
         } else if (ageRange == "17-38") {
             if (sampleValue <= 25.7 and sampleValue >= 38.3) {
-                return "critical value : " + to_string(sampleValue) + " detected at Night";
+                result = 1;
             }
         } else if (ageRange == "55+") {
             if (sampleValue <= 20 and sampleValue >= 35) {
-                return "critical value : " + to_string(sampleValue) + " detected at Night";
+                result = 1;
             }
         }
     } else if(timeWindow == "Morning"){
         if (ageRange == "0-6") {
             if (sampleValue <= 30 and sampleValue >= 52) {
-                return "critical value : " + to_string(sampleValue) + " detected at Morning";
+                result = 1;
             }
         } else if (ageRange == "7-16") {
             if (sampleValue <= 30 and sampleValue >= 55) {
-                return "critical value : " + to_string(sampleValue) + " detected at Morning";
+                result = 1;
             }
         } else if (ageRange == "17-38") {
             if (sampleValue <= 32 and sampleValue >= 57.8) {
-                return "critical value : " + to_string(sampleValue) + " detected at Morning";
+                result = 1;
             }
         } else if (ageRange == "17-38") {
             if (sampleValue <= 32 and sampleValue >= 57.8) {
-                return "critical value : " + to_string(sampleValue) + " detected at Morning";
+                result = 1;
             }
         } else if (ageRange == "55+") {
             if (sampleValue <= 30 and sampleValue >= 50) {
-                return "critical value : " + to_string(sampleValue) + " detected at Morning";
+                result = 1;
             }
         }
     } else if(timeWindow == "Daytime"){
         if (ageRange == "0-6") {
             if (sampleValue <= 20 and sampleValue >= 40) {
-                return "critical value : " + to_string(sampleValue) + " detected at Daytime";
+                result = 1;
             }
         } else if (ageRange == "7-16") {
             if (sampleValue <= 20 and sampleValue >= 39) {
-                return "critical value : " + to_string(sampleValue) + " detected at Daytime";
+                result = 1;
             }
         } else if (ageRange == "17-38") {
             if (sampleValue <= 22.7 and sampleValue >= 41) {
-                return "critical value : " + to_string(sampleValue) + " detected at Daytime";
+                result = 1;
             }
         } else if (ageRange == "17-38") {
             if (sampleValue <= 22.7 and sampleValue >= 41) {
-                return "critical value : " + to_string(sampleValue) + " detected at Daytime";
+                result = 1;
             }
         } else if (ageRange == "55+") {
             if (sampleValue <= 25.7 and sampleValue >= 37) {
-                return "critical value : " + to_string(sampleValue) + " detected at Daytime";
+                result = 1;
             }
         }
     } else if(timeWindow == "Evening"){
         if (ageRange == "0-6") {
             if (sampleValue <= 25 and sampleValue >= 52) {
-                return "critical value : " + to_string(sampleValue) + " detected at Evening";
+                result = 1;
             }
         } else if (ageRange == "7-16") {
             if (sampleValue <= 25 and sampleValue >= 55) {
-                return "critical value : " + to_string(sampleValue) + " detected at Evening";
+                result = 1;
             }
         } else if (ageRange == "17-38") {
             if (sampleValue <= 25 and sampleValue >= 57.8) {
-                return "critical value : " + to_string(sampleValue) + " detected at Evening";
+                result = 1;
             }
         } else if (ageRange == "17-38") {
             if (sampleValue <= 25 and sampleValue >= 57.8) {
-                return "critical value : " + to_string(sampleValue) + " detected at Evening";
+                result = 1;
             }
         } else if (ageRange == "55+") {
             if (sampleValue <= 25 and sampleValue >= 40) {
-                return "critical value : " + to_string(sampleValue) + " detected at Evening";
+                result = 1;
             }
         }
     }
 
-    return result; // no match found
+    return result;
 
 }
 
