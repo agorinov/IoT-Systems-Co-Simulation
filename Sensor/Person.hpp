@@ -36,6 +36,8 @@ public: // all members below are public members -- meaning that are all visible 
     string getTimeWindow(string date) const;
     int analyseSensedData(const string& timeWindow, float sampleValue) const;
 
+    float calculateCriticalSamplesPercent(int numberOfCriticalValues, int numberOfTotalValues) const;
+
 
 private:
     // data members that can only be directly accessed by this class and its direct children classes
