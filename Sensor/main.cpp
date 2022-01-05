@@ -90,7 +90,7 @@ int main(int argc, char *argv[]){
             exit(EXIT_FAILURE);
         }
 
-        int lineTracker = 0;
+//        int lineTracker = 0;
         string line;
         string timeWindow;
         string timeStamp;
@@ -112,38 +112,55 @@ int main(int argc, char *argv[]){
 
         while (getline(sensorFile, line)) {
 
+//            cout << "in while loop" << endl;
             smatch m;
-            regex sensRegExp(R"((^\d+\-\d+\-\d+\.\d+\:\d+\:\d+)\s+(\d+\.\d+))");
+//            regex sensRegExp(R"((^\d+\-\d+\-\d+\.\d+\:\d+\:\d+)\s+(\d+\.{0,1}\d+))");
+            regex sensRegExp(R"((^\S+)\s+(\S+))");
             if (regex_search(line, m, sensRegExp)) {
 
-                lineTracker++;
+//                lineTracker++;
                 timeStamp = m[1]; // first capturing group (entry in first column in sensor file)
                 sensedData = stof(m[2]); // second capturing group (entry in second column in sensor file)
 
                 timeWindow = p.getTimeWindow(timeStamp);
-                cout << "line number = " << lineTracker << ", " << m[1] << " corresponds to time window: " << timeWindow << endl;
+//                cout << "line number = " << lineTracker << ", " << m[1] << " corresponds to time window: " << timeWindow << endl;
                 criticalSensedValues[timeWindow] += p.analyseSensedData(timeWindow, sensedData);
                 totalSensedValues[timeWindow] += 1;
             }
         }
 
-        float nightCritSamplePercent = 100*(float)criticalSensedValues["Night"]/(float)totalSensedValues["Night"];
-        float morningCritSamplePercent = 100*(float)criticalSensedValues["Morning"]/(float)totalSensedValues["Morning"];
-        float daytimeCritSamplePercent = 100*(float)criticalSensedValues["Daytime"]/(float)totalSensedValues["Daytime"];
-        float eveningCritSamplePercent = 100*(float)criticalSensedValues["Evening"]/(float)totalSensedValues["Evening"];
-
-
-//        analysisFile << "Night" << "                                 " << nightCritSamplePercent << endl;
-//        analysisFile << "Morning" << "                                 " << morningCritSamplePercent << endl;
-//        analysisFile << "Daytime" << "                                 " << daytimeCritSamplePercent << endl;
-//        analysisFile << "Evening" << "                                 " << eveningCritSamplePercent << endl;
-
         /* TODO: Store analysed criticality info of the persons/samples in analysis.txt file */
+        float nightCriticalSamplesPercent;
+        float morningCriticalSamplesPercent;
+        float daytimeCriticalSamplesPercent;
+        float eveningCriticalSamplesPercent;
 
-        cout << "Night" << "                                 " << nightCritSamplePercent << endl;
-        cout << "Morning" << "                                 " << morningCritSamplePercent << endl;
-        cout << "Daytime" << "                                 " << daytimeCritSamplePercent << endl;
-        cout << "Evening" << "                                 " << eveningCritSamplePercent << endl;
+        cout << fixed << setprecision(0);
+        analysisFile << fixed << setprecision(0);
+
+        if(totalSensedValues["Night"] != 0){
+            nightCriticalSamplesPercent = p.calculateCriticalSamplesPercent(criticalSensedValues["Night"], totalSensedValues["Night"]);
+            cout << "Night" << "                                     " << nightCriticalSamplesPercent << endl;
+            analysisFile << "Night" << "                                 " << nightCriticalSamplesPercent << "% critical samples" << endl;
+        }
+
+        if(totalSensedValues["Morning"] != 0){
+            morningCriticalSamplesPercent = p.calculateCriticalSamplesPercent(criticalSensedValues["Morning"], totalSensedValues["Morning"]);
+            cout << "Morning" << "                                   " << morningCriticalSamplesPercent << endl;
+            analysisFile << "Night" << "                                 " << fixed << setprecision(0) << morningCriticalSamplesPercent << "% critical samples" << endl;
+        }
+
+        if(totalSensedValues["Daytime"] != 0){
+            daytimeCriticalSamplesPercent = p.calculateCriticalSamplesPercent(criticalSensedValues["Daytime"], totalSensedValues["Daytime"]);
+            cout << "Daytime" << "                                   " << daytimeCriticalSamplesPercent << endl;
+            analysisFile << "Daytime" << "                                 " << daytimeCriticalSamplesPercent << "% critical samples" << endl;
+        }
+
+        if(totalSensedValues["Evening"] != 0){
+            eveningCriticalSamplesPercent = p.calculateCriticalSamplesPercent(criticalSensedValues["Evening"], totalSensedValues["Evening"]);
+            cout << "Evening" << "                                   " << eveningCriticalSamplesPercent << endl;
+            analysisFile << "Evening" << "                                 " << eveningCriticalSamplesPercent << "% critical samples" << endl;
+        }
 
         sensorFile.close();
 
