@@ -19,9 +19,14 @@ void parseCommandLineOptions(int argc, char* argv[], map<string, string> &CLOpts
 /* For Sensor-Person Co-Simulation you will need to process some arguments....*/
 int main(int argc, char *argv[]){
 
-    // Directory where analysis file is stored
-    string analysisFilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Laptop\\Sensor\\Analysis.txt";
-    string sensorFilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Laptop\\Sensor\\sensorA.dat";
+    // Directory where analysis file is stored (laptop path)
+//    string analysisFilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Laptop\\Sensor\\Analysis.txt";
+//    string sensorFilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Laptop\\Sensor\\sensorA.dat";
+
+    // Directory where analysis file is stored (desktop path)
+    string analysisFilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Desktop\\Sensor\\Analysis.txt";
+    string sensorFilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Desktop\\Sensor\\sensorA.dat";
+
 
 
     map<string, string> commandLineOptions = {
@@ -147,7 +152,7 @@ int main(int argc, char *argv[]){
         if(totalSensedValues["Morning"] != 0){
             morningCriticalSamplesPercent = p.calculateCriticalSamplesPercent(criticalSensedValues["Morning"], totalSensedValues["Morning"]);
             cout << "Morning" << "                                   " << morningCriticalSamplesPercent << endl;
-            analysisFile << "Night" << "                                 " << fixed << setprecision(0) << morningCriticalSamplesPercent << "% critical samples" << endl;
+            analysisFile << "Morning" << "                                 " << fixed << setprecision(0) << morningCriticalSamplesPercent << "% critical samples" << endl;
         }
 
         if(totalSensedValues["Daytime"] != 0){
