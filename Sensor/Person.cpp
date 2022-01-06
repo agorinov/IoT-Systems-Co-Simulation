@@ -58,10 +58,10 @@ void Person::setID_num()
 //    srand( time( NULL ) );  //  using the time seed
     while(true) {
         tempID = (rand() % (maxID_num - minID_num + 1)) + minID_num;
-        if (ID_tracker.count(tempID)) {
-            cout << "ID " << tempID << " exists" << endl;
+        if (ID_tracker.count(tempID)) { //checks if new ID is contained within ID_tracker
+//            cout << "ID " << tempID << " exists" << endl;
         } else {
-            cout << "ID " << tempID << " is unique" << endl;
+//            cout << "ID " << tempID << " is unique" << endl;
             ID_num = tempID;
             ID_tracker[ID_num] = 0;
             break;
