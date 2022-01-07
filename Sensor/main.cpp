@@ -20,12 +20,12 @@ void parseCommandLineOptions(int argc, char* argv[], map<string, string> &CLOpts
 int main(int argc, char *argv[]){
 
     // Directory where analysis file is stored (laptop path)
-//    string analysisFilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Laptop\\Sensor\\Analysis.txt";
-//    string sensorFilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Laptop\\Sensor\\sensorA.dat";
+    string analysisFilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Laptop\\Sensor\\Analysis.txt";
+    string sensorFilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Laptop\\Sensor\\sensorA.dat";
 
     // Directory where analysis file is stored (desktop path)
-    string analysisFilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Desktop\\Sensor\\Analysis.txt";
-    string sensorFilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Desktop\\Sensor\\sensorA.dat";
+//    string analysisFilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Desktop\\Sensor\\Analysis.txt";
+//    string sensorFilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Desktop\\Sensor\\sensorA.dat";
 
 
 
@@ -142,48 +142,64 @@ int main(int argc, char *argv[]){
         float daytimeCriticalSamplesPercent;
         float eveningCriticalSamplesPercent;
 
-        cout << fixed << setprecision(0);
+        float criticalSamplesPercent;
+
+                cout << fixed << setprecision(0);
         analysisFile << fixed << setprecision(0);
 
-//        for (it = criticalSensedValues.begin(); it != criticalSensedValues.end(); it++){
-//            // TODO: figure out how to access totalSensedValues corresponding to time window
+        for (it = totalSensedValues.begin(); it != totalSensedValues.end(); it++){
+            string timeWin = it->first;
+
+            if (it->second > 0){
+                    int totalCount = it->second;
+                    int critCount = criticalSensedValues[timeWin];
+
+
+                    criticalSamplesPercent = p.calculateCriticalSamplesPercent(critCount, totalCount);
+                    cout << timeWin << setw(37) << criticalSamplesPercent << "% critical samples" << endl;
+                    analysisFile << timeWin << setw(37) << criticalSamplesPercent << "% critical samples" << endl;
+                } else {
+                    cout << timeWin << setw(55) << "No samples detected" << endl;
+                    analysisFile << timeWin << setw(55) << "No samples detected" << endl;
+                }
+        }
+//
+//        cout << "exitted iterator" << endl;
+//        if(totalSensedValues["Night"] != 0){
+//            nightCriticalSamplesPercent = p.calculateCriticalSamplesPercent(criticalSensedValues["Night"], totalSensedValues["Night"]);
+//            cout << "Night  " << setw(37) << nightCriticalSamplesPercent << "% critical samples" << endl;
+//            analysisFile << "Night  " << setw(37) << nightCriticalSamplesPercent << "% critical samples" << endl;
+//        } else {
+//            cout << "Night  " << setw(55) << "No samples detected" << endl;
+//            analysisFile << "Night  " << setw(55) << "No samples detected" << endl;
 //        }
-
-        if(totalSensedValues["Night"] != 0){
-            nightCriticalSamplesPercent = p.calculateCriticalSamplesPercent(criticalSensedValues["Night"], totalSensedValues["Night"]);
-            cout << "Night  " << setw(37) << nightCriticalSamplesPercent << "% critical samples" << endl;
-            analysisFile << "Night  " << setw(37) << nightCriticalSamplesPercent << "% critical samples" << endl;
-        } else {
-            cout << "Night  " << setw(55) << "No samples detected" << endl;
-            analysisFile << "Night  " << setw(55) << "No samples detected" << endl;
-        }
-
-        if(totalSensedValues["Morning"] != 0){
-            morningCriticalSamplesPercent = p.calculateCriticalSamplesPercent(criticalSensedValues["Morning"], totalSensedValues["Morning"]);
-            cout << "Morning" << setw(37) << morningCriticalSamplesPercent << "% critical samples" << endl;
-            analysisFile << "Morning" << setw(37) << fixed << setprecision(0) << morningCriticalSamplesPercent << "% critical samples" << endl;
-        } else {
-            cout << "Morning" << setw(55) << "No samples detected" << endl;
-            analysisFile << "Morning" << setw(55) << "No samples detected" << endl;
-        }
-
-        if(totalSensedValues["Daytime"] != 0){
-            daytimeCriticalSamplesPercent = p.calculateCriticalSamplesPercent(criticalSensedValues["Daytime"], totalSensedValues["Daytime"]);
-            cout << "Daytime" << setw(37) << daytimeCriticalSamplesPercent << "% critical samples" << endl;
-            analysisFile << "Daytime" << setw(37) << daytimeCriticalSamplesPercent << "% critical samples" << endl;
-        } else {
-            cout << "Daytime" << setw(55) << "No samples detected" << endl;
-            analysisFile << "Daytime" << setw(55) << "No samples detected" << endl;
-        }
-
-        if(totalSensedValues["Evening"] != 0){
-            eveningCriticalSamplesPercent = p.calculateCriticalSamplesPercent(criticalSensedValues["Evening"], totalSensedValues["Evening"]);
-            cout << "Evening" << setw(37) << eveningCriticalSamplesPercent << "% critical samples" << endl;
-            analysisFile << "Evening" << setw(37) << eveningCriticalSamplesPercent << "% critical samples" << endl;
-        } else {
-            cout << "Evening" << setw(55) << "No samples detected" << endl;
-            analysisFile << "Evening" << setw(55) << "No samples detected" << endl;
-        }
+//
+//        if(totalSensedValues["Morning"] != 0){
+//            morningCriticalSamplesPercent = p.calculateCriticalSamplesPercent(criticalSensedValues["Morning"], totalSensedValues["Morning"]);
+//            cout << "Morning" << setw(37) << morningCriticalSamplesPercent << "% critical samples" << endl;
+//            analysisFile << "Morning" << setw(37) << fixed << setprecision(0) << morningCriticalSamplesPercent << "% critical samples" << endl;
+//        } else {
+//            cout << "Morning" << setw(55) << "No samples detected" << endl;
+//            analysisFile << "Morning" << setw(55) << "No samples detected" << endl;
+//        }
+//
+//        if(totalSensedValues["Daytime"] != 0){
+//            daytimeCriticalSamplesPercent = p.calculateCriticalSamplesPercent(criticalSensedValues["Daytime"], totalSensedValues["Daytime"]);
+//            cout << "Daytime" << setw(37) << daytimeCriticalSamplesPercent << "% critical samples" << endl;
+//            analysisFile << "Daytime" << setw(37) << daytimeCriticalSamplesPercent << "% critical samples" << endl;
+//        } else {
+//            cout << "Daytime" << setw(55) << "No samples detected" << endl;
+//            analysisFile << "Daytime" << setw(55) << "No samples detected" << endl;
+//        }
+//
+//        if(totalSensedValues["Evening"] != 0){
+//            eveningCriticalSamplesPercent = p.calculateCriticalSamplesPercent(criticalSensedValues["Evening"], totalSensedValues["Evening"]);
+//            cout << "Evening" << setw(37) << eveningCriticalSamplesPercent << "% critical samples" << endl;
+//            analysisFile << "Evening" << setw(37) << eveningCriticalSamplesPercent << "% critical samples" << endl;
+//        } else {
+//            cout << "Evening" << setw(55) << "No samples detected" << endl;
+//            analysisFile << "Evening" << setw(55) << "No samples detected" << endl;
+//        }
 
         sensorFile.close();
 
