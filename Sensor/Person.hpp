@@ -38,6 +38,8 @@ public: // all members below are public members -- meaning that are all visible 
 
     float calculateCriticalSamplesPercent(int numberOfCriticalValues, int numberOfTotalValues) const;
 
+//    void storeAnalysedCriticality;
+
 
 private:
     // data members that can only be directly accessed by this class and its direct children classes
