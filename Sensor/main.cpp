@@ -1,7 +1,6 @@
 #include"Sensor.hpp"
 #include"Person.hpp"
 #include<iostream>
-#include<sstream>
 #include<string>
 #include<getopt.h> // getopt_long()
 #include<map>
@@ -45,133 +44,139 @@ int main(int argc, char *argv[]){
 
     parseCommandLineOptions(argc, argv, commandLineOptions);
 
-    cout << "sensorMode = " << commandLineOptions["sensorMode"] << endl;
-    cout << "number of persons = " << commandLineOptions["personMode"] << endl;
-    cout << "sampleTime = " << commandLineOptions["sampleTime"] << endl;
-    cout << "precisionBits = " << commandLineOptions["precisionBits"] << endl;
-    cout << "numberOfSamples = " << commandLineOptions["samples"] << endl;
+//    cout << "sensorMode = " << commandLineOptions["sensorMode"] << endl;
+//    cout << "number of persons = " << commandLineOptions["personMode"] << endl;
+//    cout << "sampleTime = " << commandLineOptions["sampleTime"] << endl;
+//    cout << "precisionBits = " << commandLineOptions["precisionBits"] << endl;
+//    cout << "numberOfSamples = " << commandLineOptions["samples"] << endl;
 
+    if (commandLineOptions["sensorMode"] != "") {
 
-//	Sensor A("A", stoi(commandLineOptions["sampleTime"]), stoi(commandLineOptions["precisionBits"]));
-//	A.showInfo();
-//
-//	A.generateSamples(stoi(commandLineOptions["samples"]));
+        Sensor A("A", stoi(commandLineOptions["sampleTime"]), stoi(commandLineOptions["precisionBits"]));
+        A.showInfo();
+
+        A.generateSamples(stoi(commandLineOptions["samples"]));
+    }
 
 	/* TODO: Declare the person objects here with different weights and ages */
 
-    vector<Person> People;
-    int personCounter;
-    for (personCounter = 0; personCounter < stoi(commandLineOptions["personMode"]); personCounter++){
-        Person person = Person();
-        People.push_back(person);
-    }
+    if (commandLineOptions["personMode"] != ""){
 
-    cout << "Size of People vector = " << People.size() << endl;
+        vector<Person> People;
+        int personCounter;
+        for (personCounter = 0; personCounter < stoi(commandLineOptions["personMode"]); personCounter++){
+            Person person = Person();
+            People.push_back(person);
+        }
 
-    ofstream analysisFile;
-    analysisFile.open(analysisFilePath, ios_base::app);
+        cout << "Size of People vector = " << People.size() << endl;
 
-    if(!analysisFile.is_open()) {
-        cerr << "Analysis file could not be opened -- exiting." << endl;
-        exit(EXIT_FAILURE);
-    }
+        ofstream analysisFile;
+        analysisFile.open(analysisFilePath, ios_base::app);
 
-    int personTracker = 1;
-
-    for (Person p : People){
-
-
-        analysisFile << "---------------------------------------------------------------------------------------------" << endl;
-        analysisFile << "Person " << personTracker++ << " ";
-        analysisFile << p.showPersonalInfo() << endl;
-        analysisFile << "---------------------------------------------------------------------------------------------" << endl;
-
-        /* TODO: Read the sensed samples with timestamps and process sample information as directed in the Project info */
-
-        ifstream sensorFile(sensorFilePath);
-
-        if(!sensorFile.is_open()) {
-            cerr << "Sensor file could not be opened -- exiting." << endl;
+        if(!analysisFile.is_open()) {
+            cerr << "Analysis file could not be opened -- exiting." << endl;
             exit(EXIT_FAILURE);
         }
 
-//        int lineTracker = 0;
-        string line;
-        string timeWindow;
-        string timeStamp;
-        float sensedData;
-        int result;
-        map<string, int> criticalSensedValues{
-                {"Night", 0},
-                {"Morning", 0},
-                {"Daytime", 0},
-                {"Evening", 0}
-        };
+        int personTracker = 1;
 
-        map<string, int> totalSensedValues{
-                {"Night", 0},
-                {"Morning", 0},
-                {"Daytime", 0},
-                {"Evening", 0}
-        };
+        for (Person p : People){
 
-        string windowName[] = { "Night", "Morning", "Daytime", "Evening"};
 
-//        map <string, int>::iterator it; // iterator for looping through map
+            analysisFile << "---------------------------------------------------------------------------------------------" << endl;
+            analysisFile << "Person " << personTracker++ << " ";
+            analysisFile << p.showPersonalInfo() << endl;
+            analysisFile << "---------------------------------------------------------------------------------------------" << endl;
 
-        while (getline(sensorFile, line)) {
+            /* TODO: Read the sensed samples with timestamps and process sample information as directed in the Project info */
 
-//            cout << "in while loop" << endl;
-            smatch m;
-//            regex sensRegExp(R"((^\d+\-\d+\-\d+\.\d+\:\d+\:\d+)\s+(\d+\.{0,1}\d+))");
-            regex sensRegExp(R"((^\S+)\s+(\S+))");
-            if (regex_search(line, m, sensRegExp)) {
+            ifstream sensorFile(sensorFilePath);
 
-//                lineTracker++;
-                timeStamp = m[1]; // first capturing group (entry in first column in sensor file)
-                sensedData = stof(m[2]); // second capturing group (entry in second column in sensor file)
-
-                timeWindow = p.getTimeWindow(timeStamp);
-//                cout << "line number = " << lineTracker << ", " << m[1] << " corresponds to time window: " << timeWindow << endl;
-                criticalSensedValues[timeWindow] += p.analyseSensedData(timeWindow, sensedData);
-                totalSensedValues[timeWindow] += 1;
+            if(!sensorFile.is_open()) {
+                cerr << "Sensor file could not be opened -- exiting." << endl;
+                exit(EXIT_FAILURE);
             }
-        }
 
-        /* TODO: Store analysed criticality info of the persons/samples in analysis.txt file */
-        float nightCriticalSamplesPercent;
-        float morningCriticalSamplesPercent;
-        float daytimeCriticalSamplesPercent;
-        float eveningCriticalSamplesPercent;
+    //        int lineTracker = 0;
+            string line;
+            string timeWindow;
+            string timeStamp;
+            float sensedData;
+            int result;
+            map<string, int> criticalSensedValues{
+                    {"Night", 0},
+                    {"Morning", 0},
+                    {"Daytime", 0},
+                    {"Evening", 0}
+            };
 
+            map<string, int> totalSensedValues{
+                    {"Night", 0},
+                    {"Morning", 0},
+                    {"Daytime", 0},
+                    {"Evening", 0}
+            };
 
+            string windowName[] = { "Night", "Morning", "Daytime", "Evening"};
 
-        float criticalSamplesPercent;
+    //        map <string, int>::iterator it; // iterator for looping through map
 
-                cout << fixed << setprecision(0);
-        analysisFile << fixed << setprecision(0);
+            while (getline(sensorFile, line)) {
 
-        for (const string& window : windowName) {
+    //            cout << "in while loop" << endl;
+                smatch m;
+    //            regex sensRegExp(R"((^\d+\-\d+\-\d+\.\d+\:\d+\:\d+)\s+(\d+\.{0,1}\d+))");
+                regex sensRegExp(R"((^\S+)\s+(\S+))");
+                if (regex_search(line, m, sensRegExp)) {
 
-            int totalCount = totalSensedValues[window];
+    //                lineTracker++;
+                    timeStamp = m[1]; // first capturing group (entry in first column in sensor file)
+                    sensedData = stof(m[2]); // second capturing group (entry in second column in sensor file)
 
-            if(totalCount > 0){
-                int critCount = criticalSensedValues[window];
-
-                criticalSamplesPercent = p.calculateCriticalSamplesPercent(critCount, totalCount);
-                cout << left << setw(7) << window << right << setw(37) << criticalSamplesPercent << "% critical samples" << endl;
-                analysisFile << left << setw(7) << window << right << setw(37) << criticalSamplesPercent << "% critical samples" << endl;
-            } else {
-                cout << setw(7) << window << setw(55) << "No samples detected" << endl;
-                analysisFile << setw(7) << window << setw(55) << "No samples detected" << endl;
+                    timeWindow = p.getTimeWindow(timeStamp);
+    //                cout << "line number = " << lineTracker << ", " << m[1] << " corresponds to time window: " << timeWindow << endl;
+                    criticalSensedValues[timeWindow] += p.analyseSensedData(timeWindow, sensedData);
+                    totalSensedValues[timeWindow] += 1;
+                }
             }
+
+            /* TODO: Store analysed criticality info of the persons/samples in analysis.txt file */
+            float nightCriticalSamplesPercent;
+            float morningCriticalSamplesPercent;
+            float daytimeCriticalSamplesPercent;
+            float eveningCriticalSamplesPercent;
+
+
+
+            float criticalSamplesPercent;
+
+            cout << fixed << setprecision(0);
+            analysisFile << fixed << setprecision(0);
+
+            for (const string& window : windowName) {
+
+                int totalCount = totalSensedValues[window];
+
+                if(totalCount > 0){
+                    int critCount = criticalSensedValues[window];
+
+                    criticalSamplesPercent = p.calculateCriticalSamplesPercent(critCount, totalCount);
+                    cout << left << setw(7) << window << right << setw(37) << criticalSamplesPercent << "% critical samples" << endl;
+                    analysisFile << left << setw(7) << window << right << setw(37) << criticalSamplesPercent << "% critical samples" << endl;
+                } else {
+                    cout << setw(7) << window << setw(55) << "No samples detected" << endl;
+                    analysisFile << setw(7) << window << setw(55) << "No samples detected" << endl;
+                }
+            }
+
+            sensorFile.close();
+
         }
-
-        sensorFile.close();
-
-    }
 
         analysisFile.close();
+        }
+
 
 
 	return 0;
