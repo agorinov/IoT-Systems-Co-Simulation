@@ -41,6 +41,7 @@ int main(int argc, char *argv[]){
     for(int argcount = 1; argcount < argc; argcount++){
         cout << argv[argcount] << "\t";
     }
+    cout << endl;
 
     parseCommandLineOptions(argc, argv, commandLineOptions);
 
@@ -52,10 +53,21 @@ int main(int argc, char *argv[]){
 
     if (commandLineOptions["sensorMode"] != "") {
 
-        Sensor A("A", stoi(commandLineOptions["sampleTime"]), stoi(commandLineOptions["precisionBits"]));
-        A.showInfo();
+        //validate sensorMode arguments for negative/zero values
+        if(stoi(commandLineOptions["precisionBits"]) >= 0 and
+        stoi(commandLineOptions["sampleTime"]) > 0 and
+        stoi(commandLineOptions["samples"]) > 0 ) {
 
-        A.generateSamples(stoi(commandLineOptions["samples"]));
+            Sensor A("A", stoi(commandLineOptions["sampleTime"]), stoi(commandLineOptions["precisionBits"]));
+            A.showInfo();
+
+            A.generateSamples(stoi(commandLineOptions["samples"]));
+
+        } else {
+            cerr << "Invalid value for precisionBits, sampleTime, or samples" << endl;
+            cerr << "sampleTime and samples cannot be negative" << endl;
+            cerr << "precisionBits cannot be negative or zero" << endl;
+        }
     }
 
 	/* TODO: Declare the person objects here with different weights and ages */
@@ -69,7 +81,7 @@ int main(int argc, char *argv[]){
             People.push_back(person);
         }
 
-        cout << "Size of People vector = " << People.size() << endl;
+//        cout << "Size of People vector = " << People.size() << endl;
 
         ofstream analysisFile;
         analysisFile.open(analysisFilePath, ios_base::app);
@@ -92,6 +104,8 @@ int main(int argc, char *argv[]){
             /* TODO: Read the sensed samples with timestamps and process sample information as directed in the Project info */
 
             ifstream sensorFile(sensorFilePath);
+
+//            cout << "sensor file path: " << sensorFilePath << endl;
 
             if(!sensorFile.is_open()) {
                 cerr << "Sensor file could not be opened -- exiting." << endl;
@@ -142,11 +156,6 @@ int main(int argc, char *argv[]){
             }
 
             /* TODO: Store analysed criticality info of the persons/samples in analysis.txt file */
-            float nightCriticalSamplesPercent;
-            float morningCriticalSamplesPercent;
-            float daytimeCriticalSamplesPercent;
-            float eveningCriticalSamplesPercent;
-
 
 
             float criticalSamplesPercent;
@@ -275,8 +284,6 @@ void parseCommandLineOptions(int argc, char* argv[], map<string, string> &CLOpts
             }
         }
 
-        cout << "optind = " << optind << endl;
-
         if (optind < argc) {
             cerr << "Error: Unrecognized arguments: " << endl;
             while (optind < argc) {
@@ -286,7 +293,7 @@ void parseCommandLineOptions(int argc, char* argv[], map<string, string> &CLOpts
         }
 
 //        cout << "argc = " << argc;
-//        cout << " optind = " << optind;
+//        cout << " optind = " << optind << endl;
 //        cout << endl;
 
     }
