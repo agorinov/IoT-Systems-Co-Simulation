@@ -67,6 +67,7 @@ int main(int argc, char *argv[]){
             cerr << "Invalid value for precisionBits, sampleTime, or samples" << endl;
             cerr << "sampleTime and samples cannot be negative" << endl;
             cerr << "precisionBits cannot be negative or zero" << endl;
+            exit(0);
         }
     }
 
