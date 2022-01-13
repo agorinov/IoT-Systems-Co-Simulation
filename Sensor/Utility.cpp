@@ -1,6 +1,4 @@
 #include "Utility.hpp"
-#include <regex>
-#include <map>
 
 
 // Display correct usage of arguments

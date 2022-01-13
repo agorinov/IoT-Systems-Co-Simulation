@@ -1,11 +1,9 @@
 #include"Sensor.hpp"
-//#include"Person.hpp"
 #include"Utility.hpp" // to avoid making main function busy
 #include<iostream>
 #include<string>
 #include<map>
 #include<vector> // to store person objects
-#include<iomanip>
 
 
 using namespace std;
@@ -79,11 +77,11 @@ int main(int argc, char *argv[]){
 
         for (Person p: People) {
 
-//TODO: move code that writes into analysis file to Utility header
-
             // Read the sensed samples with timestamps and process sample information as directed in the Project info
 
-            //        int lineTracker = 0;
+            // stores number of critical sensed values corresponding to each time window
+            // populated by distributeSampleData()
+            // used by createAnalysisReport()
             map<string, int> criticalSensedValues{
                     {"Night",   0},
                     {"Morning", 0},
@@ -91,6 +89,9 @@ int main(int argc, char *argv[]){
                     {"Evening", 0}
             };
 
+            // stores number of total sensed values corresponding to each time window
+            // populated by distributeSampleData()
+            // used by createAnalysisReport()
             map<string, int> totalSensedValues{
                     {"Night",   0},
                     {"Morning", 0},
