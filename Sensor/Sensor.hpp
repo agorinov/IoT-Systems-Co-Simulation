@@ -24,7 +24,7 @@ public:
 	void showInfo();
 
 	Sensor(const char *name);
-	Sensor(const char *name, unsigned int S, unsigned int B); 
+	Sensor(std::string name, unsigned int S, unsigned int B);
 
 	~Sensor();
 
