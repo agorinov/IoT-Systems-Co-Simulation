@@ -1,5 +1,5 @@
 program: main.cpp Sensor.o Person.o Utility.o
-	g++ -o $@ main.cpp Sensor.o Person.o
+	g++ -o $@ main.cpp Sensor.o Person.o Utility.o
 
 Sensor.o: Sensor.cpp
 	g++ -o $@ -c Sensor.cpp

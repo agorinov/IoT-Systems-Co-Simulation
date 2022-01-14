@@ -71,7 +71,7 @@ int main(int argc, char *argv[]){
 
 //        cout << "Size of People vector = " << People.size() << endl;
 
-        int personTracker = 1;
+        int personTracker = 1; // used to display person's order
 
         for (Person p: People) {
 
@@ -101,8 +101,8 @@ int main(int argc, char *argv[]){
 
             //Store analysed criticality info of the persons/samples in analysis.txt file
 
-            personTracker++; // used to display person's order
-            createAnalysisReport(analysisFilePath, p, criticalSensedValues, totalSensedValues);
+            createAnalysisReport(personTracker, analysisFilePath, p, criticalSensedValues, totalSensedValues);
+            personTracker++;
 
             }
 
