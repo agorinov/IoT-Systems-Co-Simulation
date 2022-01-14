@@ -14,4 +14,4 @@ void parseCommandLineOptions(int argc, char* argv[], map<string, string> &CLOpts
 
 void distributeSampleData(string sensorFile, Person person, map <string, int> &criticalCounts, map<string, int> &totalCounts);
 
-void createAnalysisReport(string analysisFile, Person person, map <string, int> criticalCounts, map <string, int> totalCounts);
+void createAnalysisReport(int pTracker, string analysisFile, Person person, map <string, int> criticalCounts, map <string, int> totalCounts);

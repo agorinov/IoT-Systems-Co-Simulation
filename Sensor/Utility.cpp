@@ -148,9 +148,7 @@ void distributeSampleData(string sensorFilePath, Person p, map<string, int> &cri
 }
 
 // Write criticality data to Analysis file
-void createAnalysisReport(string analysisFilePath, Person p, map <string, int> criticalCounts, map <string, int> totalCounts){
-
-    int personTracker = 1;
+void createAnalysisReport(int pTracker, string analysisFilePath, Person p, map <string, int> criticalCounts, map <string, int> totalCounts){
 
     ofstream analysisFile;
     analysisFile.open(analysisFilePath, ios_base::app);
@@ -161,7 +159,7 @@ void createAnalysisReport(string analysisFilePath, Person p, map <string, int> c
     }
 
     analysisFile << "---------------------------------------------------------------------------------------------" << endl;
-    analysisFile << "Person " << personTracker++ << " ";
+    analysisFile << "Person " << pTracker << " ";
     analysisFile << p.showPersonalInfo() << endl;
     analysisFile << "---------------------------------------------------------------------------------------------" << endl;
 
@@ -181,10 +179,10 @@ void createAnalysisReport(string analysisFilePath, Person p, map <string, int> c
             int critCount = criticalCounts[window];
 
             criticalSamplesPercent = p.calculateCriticalSamplesPercent(critCount, totalCount);
-            cout << left << setw(7) << window << right << setw(37) << criticalSamplesPercent << "% critical samples" << endl;
+//            cout << left << setw(7) << window << right << setw(37) << criticalSamplesPercent << "% critical samples" << endl;
             analysisFile << left << setw(7) << window << right << setw(37) << criticalSamplesPercent << "% critical samples" << endl;
         } else {
-            cout << setw(7) << window << setw(55) << "No samples detected" << endl;
+//            cout << setw(7) << window << setw(55) << "No samples detected" << endl;
             analysisFile << setw(7) << window << setw(55) << "No samples detected" << endl;
         }
     }

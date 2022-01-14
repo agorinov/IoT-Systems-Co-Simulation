@@ -71,6 +71,8 @@ int main(int argc, char *argv[]){
 
 //        cout << "Size of People vector = " << People.size() << endl;
 
+        int personTracker = 1;
+
         for (Person p: People) {
 
             // Read the sensed samples with timestamps and process sample information as directed in the Project info
@@ -99,6 +101,7 @@ int main(int argc, char *argv[]){
 
             //Store analysed criticality info of the persons/samples in analysis.txt file
 
+            personTracker++; // used to display person's order
             createAnalysisReport(analysisFilePath, p, criticalSensedValues, totalSensedValues);
 
             }
