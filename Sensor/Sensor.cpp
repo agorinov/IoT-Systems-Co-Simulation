@@ -44,7 +44,7 @@ void Sensor::initSensor(){
         progress += 0.01; // for progress demonstration only
     }
 //    string filename = "sensor" + name + ".dat"; //TODO: delete this line
-    string filename = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Laptop\\Sensor\\sensorA.dat";
+    string filename = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Desktop\\Sensor\\sensorA.dat";
     sensorFile.open(filename.c_str(), ios::app); /* Data gets appended here -- so make sure you clear your file before you start to set up experiments */
     cout << endl;
 

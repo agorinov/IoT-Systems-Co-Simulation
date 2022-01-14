@@ -15,16 +15,14 @@ Person::Person()
     ID_num = getID_num();
     age = getAge();
 
-    // Increase every time person is created
-//    personCount++;
 
 }
 
 // implement the other constructor with two parameters
 Person::Person( unsigned int ID_num, unsigned int age )
 {
-    this->ID_num = ID_num; //place-holder--implement randomly-generated ID number
-    this->age = age; //place-holder
+    this->ID_num = ID_num;
+    this->age = age;
 }
 
 unsigned int Person::getAge() const
@@ -38,7 +36,6 @@ void Person::setAge()
     unsigned int maxAge = 99;
     unsigned int minAge = 0;
 
-//    srand( time( NULL ) );  //  using the time seed
     age = (rand() % (maxAge - minAge + 1)) + minAge;
 }
 
@@ -54,8 +51,6 @@ void Person::setID_num()
     unsigned int minID_num = 101;
     unsigned int tempID;
 
-    // TODO: implement different seed?
-//    srand( time( NULL ) );  //  using the time seed
     while(true) {
         tempID = (rand() % (maxID_num - minID_num + 1)) + minID_num;
         if (ID_tracker.count(tempID)) { //checks if new ID is contained within ID_tracker
@@ -69,12 +64,13 @@ void Person::setID_num()
     }
 }
 
-// Prints the age and ID number of person object
+// Print the ID number and age range of person for use in analysis file
 string Person::showPersonalInfo() const
 {
     return "ID: " + to_string(ID_num) + " (Age " + getAgeRange() + " years)";
 }
 
+// Determine age range for use in analysis file and critical sensed values
 string Person::getAgeRange() const
 {
     if(age >= 0 and age <= 6){
@@ -133,7 +129,7 @@ int Person:: analyseSensedData(const string& timeWindow, float sampleValue) cons
             if (sampleValue < 22.7 or sampleValue > 37.3) {
                 criticalValue = 1;
             }
-        } else if (ageRange == "17-38") {
+        } else if (ageRange == "39-55") {
             if (sampleValue < 25.7 or sampleValue > 38.3) {
                 criticalValue = 1;
             }
@@ -155,7 +151,7 @@ int Person:: analyseSensedData(const string& timeWindow, float sampleValue) cons
             if (sampleValue < 32 or sampleValue > 57.8) {
                 criticalValue = 1;
             }
-        } else if (ageRange == "17-38") {
+        } else if (ageRange == "39-55") {
             if (sampleValue < 32 or sampleValue > 57.8) {
                 criticalValue = 1;
             }
@@ -177,7 +173,7 @@ int Person:: analyseSensedData(const string& timeWindow, float sampleValue) cons
             if (sampleValue <= 22.7 or sampleValue >= 41) {
                 criticalValue = 1;
             }
-        } else if (ageRange == "17-38") {
+        } else if (ageRange == "39-55") {
             if (sampleValue < 22.7 or sampleValue > 41) {
                 criticalValue = 1;
             }
@@ -199,7 +195,7 @@ int Person:: analyseSensedData(const string& timeWindow, float sampleValue) cons
             if (sampleValue < 25 or sampleValue > 57.8) {
                 criticalValue = 1;
             }
-        } else if (ageRange == "17-38") {
+        } else if (ageRange == "39-55") {
             if (sampleValue < 25 or sampleValue > 57.8) {
                 criticalValue = 1;
             }
@@ -216,7 +212,7 @@ int Person:: analyseSensedData(const string& timeWindow, float sampleValue) cons
 
 float Person:: calculateCriticalSamplesPercent( int numberOfCriticalValues, int numberOfTotalValues) const
 {
-    float result = -1; // no smaples
+    float result = -1; // no saples
 
     if (numberOfTotalValues > 0){
         result = 100*(float)numberOfCriticalValues/(float)numberOfTotalValues;

@@ -109,6 +109,7 @@ void parseCommandLineOptions(int argc, char* argv[], map<string, string> &CLOpts
     }
 }
 
+// Read the sensed samples with timestamps and process sample information as directed in the Project info
 void distributeSampleData(string sensorFilePath, Person p, map<string, int> &criticalCounts, map<string, int> &totalCounts){
 
     ifstream sensorFile(sensorFilePath);
@@ -146,6 +147,7 @@ void distributeSampleData(string sensorFilePath, Person p, map<string, int> &cri
 
 }
 
+// Write criticality data to Analysis file
 void createAnalysisReport(string analysisFilePath, Person p, map <string, int> criticalCounts, map <string, int> totalCounts){
 
     int personTracker = 1;

@@ -11,13 +11,10 @@ using namespace std;
 int main(int argc, char *argv[]){
 
     string sensorName = "A";
-    // Directory where analysis file is stored (laptop path)
-    string analysisFilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Laptop\\Sensor\\Analysis.txt";
-    string sensorFilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Laptop\\Sensor\\sensor" + sensorName + ".dat";
 
-    // Directory where analysis file is stored (desktop path)
-//    string analysisFilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Desktop\\Sensor\\Analysis.txt";
-//    string sensorFilePath = "C:\\Users\\andre\\OneDrive - Newcastle University\\Stage 2 2021-2022\\EEE2007 - Computer Systems and Microprocessors\\projects\\IoT Desktop\\Sensor\\sensorA.dat";
+    // Directory where analysis files are stored
+    string analysisFilePath = "Analysis.txt";
+    string sensorFilePath = "sensor" + sensorName + ".dat";
 
     map<string, string> commandLineOptions = {
             {"sensorMode", ""},
@@ -34,7 +31,7 @@ int main(int argc, char *argv[]){
     }
     cout << endl;
 
-    parseCommandLineOptions(argc, argv, commandLineOptions);
+    parseCommandLineOptions(argc, argv, commandLineOptions); // defined in Utility library
 
 //    cout << "sensorMode = " << commandLineOptions["sensorMode"] << endl;
 //    cout << "number of persons = " << commandLineOptions["personMode"] << endl;
@@ -62,11 +59,10 @@ int main(int argc, char *argv[]){
         }
     }
 
-	/* TODO: Declare the person objects here with different weights and ages */
 
     if (!commandLineOptions["personMode"].empty()) {
 
-        vector<Person> People;
+        vector<Person> People; 	// Declare the person objects here with different ages
         int personCounter;
         for (personCounter = 0; personCounter < stoi(commandLineOptions["personMode"]); personCounter++) {
             Person person = Person();
